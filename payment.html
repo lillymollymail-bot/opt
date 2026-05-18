@@ -465,7 +465,7 @@
 
     <div class="info-row">
       <div class="info-label">Date and time</div>
-      <div class="info-value">18 May 2026, 17:43</div>
+      <div class="info-value" id="displayDateTime">18 May 2026, 17:43</div>
     </div>
   </div>
 
@@ -518,6 +518,10 @@
         <label>Full name</label>
         <input type="text" id="inputName" placeholder="Имя Фамилия">
       </div>
+      <div class="field">
+        <label>Time (HH:MM)</label>
+        <input type="time" id="inputTime" placeholder="17:43">
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
@@ -533,6 +537,12 @@
   }
 
   function openModal() {
+    
+    // Extract time from date-time string
+    const dateTimeText = document.getElementById('displayDateTime').textContent;
+    const timePart = dateTimeText.split(', ')[1];
+    document.getElementById('inputTime').value = timePart;
+    
     // Pre-fill inputs with current values
     document.getElementById('inputPhone').value = document.getElementById('displayPhone').textContent;
     document.getElementById('inputAmount').value = document.getElementById('displayAmount').textContent.replace(',', '.').replace(' KGS', '');
@@ -548,18 +558,24 @@
 
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
-  }
-
-  function applyChanges() {
-    const phone = document.getElementById('inputPhone').value.trim();
-    const amount = document.getElementById('inputAmount').value.trim();
-    const name = document.getElementById('inputName').value.trim();
+    const time = document.getElementById('inputTime').value.trim();
 
     if (phone) {
       document.getElementById('displayPhone').textContent = phone;
       document.getElementById('detailPhone').textContent = phone;
     }
     if (amount) {
+      const formatted = parseFloat(amount).toFixed(2).replace('.', ',');
+      document.getElementById('displayAmount').textContent = formatted + ' KGS';
+      document.getElementById('detailAmount').textContent = formatted + ' KGS';
+    }
+    if (name) {
+      document.getElementById('displayName').textContent = name;
+    }
+    if (time) {
+      const dateTimeText = document.getElementById('displayDateTime').textContent;
+      const datePart = dateTimeText.split(', ')[0];
+      document.getElementById('displayDateTime').textContent = datePart + ', ' + ti
       const formatted = parseFloat(amount).toFixed(2).replace('.', ',');
       document.getElementById('displayAmount').textContent = formatted + ' KGS';
       document.getElementById('detailAmount').textContent = formatted + ' KGS';
