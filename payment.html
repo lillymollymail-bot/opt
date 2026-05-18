@@ -27,6 +27,14 @@
     --green: #4caf50;
   }
 
+  @font-face {
+    font-family: 'InterLocal';
+    src: url('fonts/Inter-V.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
   html, body {
     min-height: 100%;
     background: var(--bg);
@@ -59,7 +67,15 @@
     overflow-x: hidden;
     overflow-y: auto;
     color: #111322;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-family: 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  }
+
+  .screen-repeat,
+  .screen-repeat button,
+  .screen-repeat input,
+  .screen-repeat textarea,
+  .screen-repeat select {
+    font-family: 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   }
 
   .hero {
@@ -1058,7 +1074,13 @@
 
   .modal-overlay.active { display: flex; }
 
-  .modal {
+  .modal-overlay .modal {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
     background: #1e1e1e;
     border-radius: 20px 20px 0 0;
     padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
@@ -1387,37 +1409,67 @@
 </div>
 
 <script>
+  let activeEditTarget = 'original';
+  let repeatTemplatePhone = '996703738479';
+
   function toggleDetails() {
     document.getElementById('detailsContent').classList.toggle('open');
     document.getElementById('chevron').classList.toggle('open');
   }
 
-  function openModal() {
-    document.getElementById('inputPhone').value = document.getElementById('displayPhone').textContent;
-    document.getElementById('inputAmount').value = document.getElementById('displayAmount').textContent.replace(',', '.').replace(' KGS', '');
-    document.getElementById('inputName').value = document.getElementById('displayName').textContent;
-    
-    // Extract date and time from date-time string
-    const dateTimeText = document.getElementById('displayDateTime').textContent;
-    const parts = dateTimeText.split(', ');
-    const dateStr = parts[0];
-    const timeStr = parts[1];
-    
-    // Parse date (format: "18 May 2026") to ISO format (2026-05-18)
+  function cleanAmountForInput(amountText) {
+    return (amountText || '')
+      .replace(/KGS/gi, '')
+      .replace(/[сc]/gi, '')
+      .replace('-', '')
+      .replace(',', '.')
+      .trim();
+  }
+
+  function parseOriginalDateTime(dateTimeText) {
+    const parts = (dateTimeText || '').split(', ');
+    const dateStr = parts[0] || '18 May 2026';
+    const timeStr = parts[1] || '17:43';
     const months = {
       'January': '01', 'February': '02', 'March': '03', 'April': '04',
       'May': '05', 'June': '06', 'July': '07', 'August': '08',
       'September': '09', 'October': '10', 'November': '11', 'December': '12'
     };
     const dateParts = dateStr.split(' ');
-    const day = dateParts[0].padStart(2, '0');
-    const month = months[dateParts[1]];
-    const year = dateParts[2];
-    const isoDate = `${year}-${month}-${day}`;
-    
-    document.getElementById('inputDate').value = isoDate;
-    document.getElementById('inputTime').value = timeStr;
-    
+    const day = (dateParts[0] || '18').padStart(2, '0');
+    const month = months[dateParts[1]] || '05';
+    const year = dateParts[2] || '2026';
+    return { date: `${year}-${month}-${day}`, time: timeStr };
+  }
+
+  function parseRepeatDateTime(dateTimeText) {
+    const match = (dateTimeText || '').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4}),\s*(\d{2}:\d{2})$/);
+    if (!match) return { date: '2026-05-18', time: '19:00' };
+    return {
+      date: `${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}`,
+      time: match[4]
+    };
+  }
+
+  function openModal(target = 'original') {
+    activeEditTarget = target;
+
+    if (target === 'repeat') {
+      const repeatDateTime = parseRepeatDateTime(document.getElementById('repeatDateTime').textContent);
+      document.getElementById('inputPhone').value = repeatTemplatePhone;
+      document.getElementById('inputAmount').value = cleanAmountForInput(document.getElementById('repeatTotal').textContent);
+      document.getElementById('inputName').value = document.getElementById('repeatRecipient').textContent;
+      document.getElementById('inputDate').value = repeatDateTime.date;
+      document.getElementById('inputTime').value = repeatDateTime.time;
+    } else {
+      const originalDateTime = parseOriginalDateTime(document.getElementById('displayDateTime').textContent);
+      document.getElementById('inputPhone').value = document.getElementById('displayPhone').textContent;
+      document.getElementById('inputAmount').value = cleanAmountForInput(document.getElementById('displayAmount').textContent);
+      document.getElementById('inputName').value = document.getElementById('displayName').textContent;
+      document.getElementById('inputDate').value = originalDateTime.date;
+      document.getElementById('inputTime').value = originalDateTime.time;
+    }
+
     document.getElementById('modalOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -1437,6 +1489,12 @@
     const name = document.getElementById('inputName').value.trim();
     const date = document.getElementById('inputDate').value.trim();
     const time = document.getElementById('inputTime').value.trim();
+
+    if (activeEditTarget === 'repeat') {
+      applyRepeatChanges(phone, amount, name, date, time);
+      closeModal();
+      return;
+    }
 
     if (phone) {
       document.getElementById('displayPhone').textContent = phone;
@@ -1461,6 +1519,28 @@
     }
 
     closeModal();
+  }
+
+  function applyRepeatChanges(phone, amount, name, date, time) {
+    const currentAmount = cleanAmountForInput(document.getElementById('repeatTotal').textContent) || '10.00';
+    const currentName = document.getElementById('repeatRecipient').textContent.trim();
+    const nextPhone = phone || repeatTemplatePhone;
+    const nextName = name || currentName;
+    const nextAmount = amount ? parseFloat(amount.replace(',', '.')).toFixed(2).replace('.', ',') : parseFloat(currentAmount).toFixed(2).replace('.', ',');
+
+    repeatTemplatePhone = nextPhone;
+    document.getElementById('repeatAmount').innerHTML = `- ${nextAmount} <span class="currency">с</span>`;
+    document.getElementById('repeatTotal').innerHTML = `${nextAmount} <span class="currency small">с</span>`;
+    document.getElementById('repeatRecipient').textContent = nextName;
+    document.getElementById('modalAmount').innerHTML = `${nextAmount} <span class="currency small">с</span>`;
+    document.getElementById('modalRecipient').textContent = nextName;
+
+    if (date && time) {
+      const dateParts = date.split('-');
+      document.getElementById('repeatDateTime').textContent = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}, ${time}`;
+    }
+
+    document.getElementById('repeatPurpose').innerHTML = `Перевод по номеру телефона qr.<br>${nextPhone}/ ${nextName}// Сумма ${nextAmount.replace(',', '.')} KGS`;
   }
 </script>
 
@@ -1505,6 +1585,7 @@
     const dateTime = formatReceiptDate(document.getElementById('displayDateTime').textContent);
     const phone = document.getElementById('displayPhone').textContent.trim() || '996703738479';
 
+    repeatTemplatePhone = phone;
     document.getElementById('repeatAmount').innerHTML = `- ${amount} <span class="currency">с</span>`;
     document.getElementById('repeatRecipient').textContent = name;
     document.getElementById('repeatDateTime').textContent = dateTime;
@@ -1581,7 +1662,7 @@
   }
 
   function saveTemplate() {
-    showRepeatToast('Сохранено как шаблон');
+    openModal('repeat');
   }
 
   document.addEventListener('keydown', (event) => {
