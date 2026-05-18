@@ -25,6 +25,7 @@
     --text-muted: #888888;
     --red: #c62828;
     --green: #4caf50;
+    --repeat-sheet-lift: 0px;
   }
 
   @font-face {
@@ -59,14 +60,15 @@
     width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-    height: auto;
+    height: 100vh;
+    height: 100dvh;
     background-color: #EFF0F3;
     background-image: url('bg-pattern.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     color: #111322;
     font-family: 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   }
@@ -74,8 +76,11 @@
   .screen-repeat .app {
     min-height: 100vh;
     min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .screen-repeat,
@@ -92,6 +97,7 @@
     flex: 0 0 450px;
     padding-top: 1px;
     text-align: center;
+    overflow: hidden;
   }
 
   .status-bar-repeat {
@@ -178,13 +184,19 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     min-height: calc(100vh - 450px);
     min-height: calc(100dvh - 450px);
     padding: 77px 25px calc(26px + env(safe-area-inset-bottom, 0px));
     border-radius: 29px 29px 0 0;
     background: rgba(254, 254, 254, 0.98);
     box-shadow: 0 -8px 24px rgba(39, 44, 62, 0.02);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    transform: translateY(calc(-1 * var(--repeat-sheet-lift)));
+    transition: transform 120ms ease-out;
+    will-change: transform;
   }
 
   .drag-handle {
@@ -622,7 +634,7 @@
     }
 
     .screen-repeat .details-card {
-      min-height: calc(100dvh - 375px);
+      min-height: calc(100dvh - 375px + 96px);
       padding: 64px 20px calc(24px + env(safe-area-inset-bottom, 0px));
       border-radius: 25px 25px 0 0;
     }
@@ -665,8 +677,8 @@
     }
 
     .screen-repeat .hero {
-      height: 300px;
-      flex-basis: 300px;
+      height: 450px;
+      flex-basis: 450px;
       padding-top: 0;
     }
 
@@ -675,48 +687,48 @@
     }
 
     .screen-repeat .success-mark {
-      width: 68px;
-      height: 68px;
-      margin-top: 84px;
+      width: 100px;
+      height: 100px;
+      margin-top: 126px;
     }
 
     .screen-repeat .success-mark path {
-      stroke-width: 6.8;
+      stroke-width: 7.6;
     }
 
     .screen-repeat .hero-title {
-      margin-top: 21px;
+      margin-top: 28px;
       padding: 0 12px;
-      font-size: 18px;
+      font-size: 24px;
       line-height: 1.12;
       letter-spacing: -0.035em;
       white-space: nowrap;
     }
 
     .screen-repeat .hero-amount {
-      margin-top: 14px;
-      font-size: 39px;
+      margin-top: 18px;
+      font-size: 54px;
       line-height: 1;
       letter-spacing: 0;
     }
 
     .screen-repeat .hero-method {
-      margin: 18px 16px 0;
-      font-size: 16px;
+      margin: 26px 16px 0;
+      font-size: 21px;
       line-height: 1.25;
       letter-spacing: -0.018em;
     }
 
     .screen-repeat .details-card {
-      min-height: calc(100dvh - 300px);
-      padding: 55px 17px calc(28px + env(safe-area-inset-bottom, 0px));
+      min-height: calc(100dvh - 450px + 150px);
+      padding: 77px 25px calc(28px + env(safe-area-inset-bottom, 0px));
       border-radius: 25px 25px 0 0;
     }
 
     .screen-repeat .drag-handle {
-      top: 17px;
-      width: 42px;
-      height: 4px;
+      top: 25px;
+      width: 63px;
+      height: 6px;
     }
 
     .screen-repeat .details-header {
@@ -1583,6 +1595,23 @@
     if (appleStatusMeta) appleStatusMeta.setAttribute('content', color === '#111111' ? 'black-translucent' : 'default');
   }
 
+  function syncRepeatSheetLift() {
+    const repeatScreen = document.getElementById('repeatScreen');
+    const detailsCard = repeatScreen ? repeatScreen.querySelector('.details-card') : null;
+    if (!detailsCard) return;
+
+    const maxLift = window.matchMedia('(max-width: 768px)').matches ? 150 : 130;
+    const lift = Math.min(maxLift, detailsCard.scrollTop * 0.75);
+    repeatScreen.style.setProperty('--repeat-sheet-lift', `${lift}px`);
+  }
+
+  function resetRepeatSheetLift() {
+    const repeatScreen = document.getElementById('repeatScreen');
+    const detailsCard = repeatScreen ? repeatScreen.querySelector('.details-card') : null;
+    if (detailsCard) detailsCard.scrollTop = 0;
+    if (repeatScreen) repeatScreen.style.setProperty('--repeat-sheet-lift', '0px');
+  }
+
   function showOriginalDesign() {
     const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
     const repeatScreen = document.getElementById('repeatScreen');
@@ -1598,6 +1627,7 @@
     const repeatScreen = document.getElementById('repeatScreen');
 
     updateThemeColor('#EFF0F3');
+    resetRepeatSheetLift();
     const amount = normalizeAmountForReceipt(document.getElementById('displayAmount').textContent);
     const name = document.getElementById('displayName').textContent.trim() || 'Бекжан А.';
     const dateTime = formatReceiptDate(document.getElementById('displayDateTime').textContent);
@@ -1686,6 +1716,11 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeRepeatModal();
   });
+
+  const repeatDetailsCard = document.querySelector('#repeatScreen .details-card');
+  if (repeatDetailsCard) {
+    repeatDetailsCard.addEventListener('scroll', syncRepeatSheetLift, { passive: true });
+  }
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
