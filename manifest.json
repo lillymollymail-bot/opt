@@ -2,9 +2,9 @@
   "name": "MBANK Платежи",
   "short_name": "MBANK",
   "description": "Быстрые платежи MBANK",
-  "start_url": "https://lillymollymail-bot.github.io/opt/payment.html",
-  "scope": "https://lillymollymail-bot.github.io/opt/",
-  "display": "standalone",
+  "start_url": "./payment.html",
+  "scope": "./",
+  "display": "fullscreen",
   "background_color": "#111111",
   "theme_color": "#111111",
   "orientation": "portrait",
@@ -21,5 +21,9 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "display_override": [
+    "fullscreen",
+    "standalone"
   ]
 }

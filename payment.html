@@ -629,6 +629,152 @@
     }
   }
 
+
+  /* Phone-fit overrides: matches the 591px reference screenshot on mobile DPR screens. */
+  @media (max-width: 768px) {
+    .screen-repeat {
+      background-size: 100% auto;
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
+
+    .screen-repeat .hero {
+      height: 300px;
+      padding-top: 0;
+    }
+
+    .screen-repeat .status-bar-repeat {
+      display: none !important;
+    }
+
+    .screen-repeat .success-mark {
+      width: 68px;
+      height: 68px;
+      margin-top: 84px;
+    }
+
+    .screen-repeat .success-mark path {
+      stroke-width: 6.8;
+    }
+
+    .screen-repeat .hero-title {
+      margin-top: 21px;
+      padding: 0 12px;
+      font-size: 18px;
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+      white-space: nowrap;
+    }
+
+    .screen-repeat .hero-amount {
+      margin-top: 14px;
+      font-size: 39px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .screen-repeat .hero-method {
+      margin: 18px 16px 0;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: -0.018em;
+    }
+
+    .screen-repeat .details-card {
+      min-height: calc(100svh - 300px);
+      padding: 55px 17px calc(128px + env(safe-area-inset-bottom, 0px));
+      border-radius: 25px 25px 0 0;
+    }
+
+    .screen-repeat .drag-handle {
+      top: 17px;
+      width: 42px;
+      height: 4px;
+    }
+
+    .screen-repeat .details-header {
+      margin-bottom: 30px;
+      gap: 10px;
+    }
+
+    .screen-repeat .details-header h2 {
+      font-size: 19px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    .screen-repeat .icon-button {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+    }
+
+    .screen-repeat .icon-button svg {
+      width: 25px;
+      height: 25px;
+      stroke-width: 2.15;
+    }
+
+    .screen-repeat .transaction-list {
+      gap: 21px;
+    }
+
+    .screen-repeat .row {
+      grid-template-columns: minmax(130px, 1fr) minmax(150px, 1.12fr);
+      column-gap: 8px;
+    }
+
+    .screen-repeat .row dt,
+    .screen-repeat .row dd {
+      font-size: 16px;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+    }
+
+    .screen-repeat .purpose-row dd {
+      max-width: 190px;
+      line-height: 1.27;
+    }
+
+    .screen-repeat .action-list {
+      margin-top: 34px;
+      gap: 25px;
+    }
+
+    .screen-repeat .text-action {
+      gap: 12px;
+      min-height: 30px;
+      font-size: 18px;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .screen-repeat .text-action svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .screen-repeat .home-button-repeat {
+      left: 17px;
+      right: 17px;
+      bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+      height: 59px;
+      border-radius: 20px;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .screen-repeat .hero-title { font-size: 17px; }
+    .screen-repeat .hero-amount { font-size: 36px; }
+    .screen-repeat .row dt,
+    .screen-repeat .row dd { font-size: 15px; }
+    .screen-repeat .row { grid-template-columns: minmax(118px, 1fr) minmax(136px, 1.08fr); }
+    .screen-repeat .purpose-row dd { max-width: 168px; }
+    .screen-repeat .text-action { font-size: 17px; }
+  }
+
   /* Header */
   .header {
     text-align: center;
@@ -1105,15 +1251,6 @@
 <div class="screen screen-repeat hidden" id="repeatScreen">
   <main class="app" aria-label="Экран успешной транзакции">
     <section class="hero" aria-label="Статус транзакции">
-      <div class="status-bar-repeat" aria-hidden="true">
-        <span>19:01</span>
-        <div class="status-icons">
-          <span class="signal"></span>
-          <span class="wifi"></span>
-          <span class="battery"><span>68</span></span>
-        </div>
-      </div>
-
       <div class="success-mark" aria-hidden="true">
         <svg viewBox="0 0 80 80" role="img" aria-label="Успешно">
           <circle cx="40" cy="40" r="40"></circle>
