@@ -41,6 +41,195 @@
     flex-direction: column;
   }
 
+  .screen.hidden {
+    display: none;
+  }
+
+  /* Repeat Payment Screen Styles */
+  .screen-repeat {
+    background: linear-gradient(135deg, #f5e6d3 0%, #e8d9c8 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen-repeat::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 500px;
+    height: 500px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 Q30,10 40,20" fill="none" stroke="rgba(200,180,160,0.3)" stroke-width="1"/><path d="M50,30 Q60,20 70,30" fill="none" stroke="rgba(200,180,160,0.3)" stroke-width="1"/></svg>');
+    background-repeat: repeat;
+  }
+
+  .repeat-header {
+    text-align: center;
+    padding: 60px 24px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .check-circle-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 12px 32px rgba(76, 175, 80, 0.3);
+  }
+
+  .check-circle-large svg {
+    width: 50px;
+    height: 50px;
+    stroke: white;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .repeat-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #4caf50;
+    margin-bottom: 24px;
+    letter-spacing: -0.3px;
+  }
+
+  .repeat-amount {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .repeat-description {
+    font-size: 15px;
+    color: #666666;
+    margin-bottom: 40px;
+  }
+
+  /* Details Modal in Repeat Screen */
+  .repeat-details-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 32px 32px 0 0;
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .repeat-details-handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #cccccc;
+    margin: 0 auto 20px;
+  }
+
+  .repeat-details-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .share-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #4caf50;
+    fill: none;
+    stroke-width: 2;
+    cursor: pointer;
+  }
+
+  .repeat-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333333;
+  }
+
+  .repeat-detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .repeat-detail-label {
+    font-size: 14px;
+    color: #999999;
+    font-weight: 500;
+  }
+
+  .repeat-detail-value {
+    font-size: 14px;
+    color: #1a1a1a;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .repeat-actions {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .repeat-action-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: #4caf50;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .repeat-action-item:active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .repeat-action-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #4caf50;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .repeat-home-btn {
+    width: 100%;
+    padding: 17px;
+    border-radius: 14px;
+    background: #f5c211;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    letter-spacing: -0.2px;
+    margin-top: 12px;
+    transition: filter 0.15s, transform 0.1s;
+  }
+
+  .repeat-home-btn:active {
+    filter: brightness(0.9);
+    transform: scale(0.98);
+  }
+
   /* Header */
   .header {
     text-align: center;
@@ -439,7 +628,7 @@
       </div>
       <span>Create a<br>template</span>
     </button>
-    <button class="action-btn">
+    <button class="action-btn" onclick="showRepeatPaymentScreen()">
       <div class="icon-wrap">
         <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
       </div>
@@ -511,6 +700,68 @@
     <button class="btn-main">To previous page</button>
   </div>
 
+</div>
+
+<!-- Repeat Payment Screen -->
+<div class="screen screen-repeat hidden" id="repeatScreen">
+  <div class="repeat-header">
+    <div class="check-circle-large">
+      <svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 7"/></svg>
+    </div>
+    <div class="repeat-title">Транзакция успешно проведена</div>
+    <div class="repeat-amount" id="repeatAmount">- 10,00 ₽</div>
+    <div class="repeat-description" id="repeatDescription">Перевод по номеру телефона QR</div>
+  </div>
+
+  <div class="repeat-details-overlay">
+    <div class="repeat-details-handle"></div>
+    <div class="repeat-details-title">
+      Детали транзакции
+      <svg class="share-icon" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M12 2v10M5 9l7-7 7 7"/></svg>
+    </div>
+
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Дата и время</span>
+      <span class="repeat-detail-value" id="repeatDateTime">18.05.2026, 19:00</span>
+    </div>
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Номер квитанции</span>
+      <span class="repeat-detail-value">P051813005452</span>
+    </div>
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Оплачено со счета</span>
+      <span class="repeat-detail-value">103012068720522</span>
+    </div>
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Получатель</span>
+      <span class="repeat-detail-value" id="repeatRecipient">Бекжан А.</span>
+    </div>
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Итого</span>
+      <span class="repeat-detail-value" id="repeatTotal">10,00 ₽</span>
+    </div>
+    <div class="repeat-detail-row">
+      <span class="repeat-detail-label">Назначение платежа</span>
+      <span class="repeat-detail-value">Перевод по номеру телефона кр. 996703738479/ Бекжан А.// Сумма 10.00 KGS</span>
+    </div>
+
+    <div class="repeat-actions">
+      <button class="repeat-action-item" onclick="showReceipt()">
+        <svg class="repeat-action-icon" viewBox="0 0 24 24"><path d="M9 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9l-7-7z"/><polyline points="13 3 13 9 19 9"/></svg>
+        <span>Посмотреть квитанцию</span>
+      </button>
+      <button class="repeat-action-item" onclick="repeatPaymentAgain()">
+        <svg class="repeat-action-icon" viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+        <span>Повторить платеж</span>
+      </button>
+      <button class="repeat-action-item" onclick="saveTemplate()">
+        <svg class="repeat-action-icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Сохранить как шаблон</span>
+      </button>
+    </div>
+
+    <button class="repeat-home-btn" onclick="goToHome()">На главную</button>
+  </div>
 </div>
 
 <!-- Edit Modal -->
@@ -626,6 +877,45 @@
 </script>
 
 <script>
+  // Screen Management
+  function showRepeatPaymentScreen() {
+    const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
+    const repeatScreen = document.getElementById('repeatScreen');
+    
+    mainScreen.classList.add('hidden');
+    repeatScreen.classList.remove('hidden');
+    
+    // Update repeat screen with current data
+    const amount = document.getElementById('displayAmount').textContent;
+    const name = document.getElementById('displayName').textContent;
+    const dateTime = document.getElementById('displayDateTime').textContent;
+    
+    document.getElementById('repeatAmount').textContent = '- ' + amount;
+    document.getElementById('repeatRecipient').textContent = name;
+    document.getElementById('repeatDateTime').textContent = dateTime.replace(', ', ', ').split(' ')[0] + ' ' + dateTime.split(' ')[1];
+    document.getElementById('repeatTotal').textContent = amount;
+  }
+
+  function goToHome() {
+    const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
+    const repeatScreen = document.getElementById('repeatScreen');
+    
+    repeatScreen.classList.add('hidden');
+    mainScreen.classList.remove('hidden');
+  }
+
+  function showReceipt() {
+    alert('Квитанция');
+  }
+
+  function repeatPaymentAgain() {
+    alert('Повторить платеж');
+  }
+
+  function saveTemplate() {
+    alert('Сохранено как шаблон');
+  }
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
   }
