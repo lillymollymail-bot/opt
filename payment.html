@@ -49,13 +49,17 @@
   .screen-repeat {
     position: relative;
     width: 100%;
-    height: 100vh;
-    background: #EFF0F3;
-    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="grad1" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23e8d9c8;stop-opacity:1" /><stop offset="50%25" style="stop-color:%23f5e6d3;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23e8d9c8;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad1)"/></svg>');
+    min-height: 100svh;
+    height: auto;
+    background-color: #EFF0F3;
+    background-image: url('bg-pattern.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: #111322;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   }
 
   .hero {
@@ -299,11 +303,11 @@
   }
 
   .text-action.repeat {
-    color: rgba(0, 156, 77, 0.24);
+    color: #009C4D;
   }
 
   .home-button-repeat {
-    position: absolute;
+    position: fixed;
     z-index: 5;
     left: 25px;
     right: 25px;
@@ -530,6 +534,99 @@
 
   .modal-button:hover {
     filter: brightness(0.98);
+  }
+
+
+  /* Scoped receipt modal inside the repeat-design screen (prevents conflicts with the edit modal) */
+  .screen-repeat .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+    background: transparent;
+    border-radius: 0;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .screen-repeat .modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .screen-repeat .modal-card {
+    transform: none;
+  }
+
+  @media (max-width: 430px) {
+    .screen-repeat .status-bar-repeat {
+      padding: 0 24px;
+      font-size: 18px;
+    }
+
+    .screen-repeat .hero {
+      height: 375px;
+    }
+
+    .screen-repeat .success-mark {
+      width: 82px;
+      height: 82px;
+      margin-top: 94px;
+    }
+
+    .screen-repeat .hero-title {
+      margin-top: 22px;
+    }
+
+    .screen-repeat .hero-amount {
+      margin-top: 14px;
+    }
+
+    .screen-repeat .hero-method {
+      margin-top: 20px;
+    }
+
+    .screen-repeat .details-card {
+      min-height: calc(100svh - 375px);
+      padding: 64px 20px 150px;
+      border-radius: 25px 25px 0 0;
+    }
+
+    .screen-repeat .details-header {
+      margin-bottom: 30px;
+    }
+
+    .screen-repeat .transaction-list {
+      gap: 22px;
+    }
+
+    .screen-repeat .row {
+      grid-template-columns: minmax(126px, 1fr) minmax(170px, 1.15fr);
+      column-gap: 8px;
+    }
+
+    .screen-repeat .purpose-row dd {
+      max-width: 200px;
+    }
+
+    .screen-repeat .action-list {
+      margin-top: 34px;
+      gap: 24px;
+    }
+
+    .screen-repeat .home-button-repeat {
+      left: 20px;
+      right: 20px;
+      bottom: 28px;
+      height: 70px;
+      border-radius: 24px;
+    }
   }
 
   /* Header */
@@ -1089,6 +1186,13 @@
           </svg>
           <span>Повторить платеж</span>
         </button>
+
+        <button class="text-action save-template" type="button" onclick="saveTemplate()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 4.8A2.8 2.8 0 0 1 8.8 2h6.4A2.8 2.8 0 0 1 18 4.8V21l-6-3.8L6 21V4.8Z"></path>
+          </svg>
+          <span>Сохранить как шаблон</span>
+        </button>
       </div>
     </section>
 
@@ -1225,30 +1329,60 @@
 
 <script>
   // Screen Management
+  function normalizeAmountForReceipt(amountText) {
+    const clean = (amountText || '10,00 KGS').replace(/KGS/gi, '').replace(/сом/gi, '').trim() || '10,00';
+    return clean;
+  }
+
+  function formatReceiptDate(dateTimeText) {
+    const source = (dateTimeText || '').trim();
+    const match = source.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4}),\s*(\d{2}:\d{2})$/);
+    if (!match) return source || '18.05.2026, 19:00';
+
+    const months = {
+      January: '01', February: '02', March: '03', April: '04', May: '05', June: '06',
+      July: '07', August: '08', September: '09', October: '10', November: '11', December: '12'
+    };
+    const day = match[1].padStart(2, '0');
+    const month = months[match[2]] || '05';
+    const year = match[3];
+    const time = match[4];
+    return `${day}.${month}.${year}, ${time}`;
+  }
+
+  function showOriginalDesign() {
+    const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
+    const repeatScreen = document.getElementById('repeatScreen');
+
+    repeatScreen.classList.add('hidden');
+    mainScreen.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
   function showRepeatPaymentScreen() {
     const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
     const repeatScreen = document.getElementById('repeatScreen');
-    
+
+    const amount = normalizeAmountForReceipt(document.getElementById('displayAmount').textContent);
+    const name = document.getElementById('displayName').textContent.trim() || 'Бекжан А.';
+    const dateTime = formatReceiptDate(document.getElementById('displayDateTime').textContent);
+    const phone = document.getElementById('displayPhone').textContent.trim() || '996703738479';
+
+    document.getElementById('repeatAmount').innerHTML = `- ${amount} <span class="currency">с</span>`;
+    document.getElementById('repeatRecipient').textContent = name;
+    document.getElementById('repeatDateTime').textContent = dateTime;
+    document.getElementById('repeatTotal').innerHTML = `${amount} <span class="currency small">с</span>`;
+    document.getElementById('repeatPurpose').innerHTML = `Перевод по номеру телефона qr.<br>${phone}/ ${name}// Сумма ${amount.replace(',', '.')} KGS`;
+    document.getElementById('modalAmount').innerHTML = `${amount} <span class="currency small">с</span>`;
+    document.getElementById('modalRecipient').textContent = name;
+
     mainScreen.classList.add('hidden');
     repeatScreen.classList.remove('hidden');
-    
-    // Update repeat screen with current data
-    const amount = document.getElementById('displayAmount').textContent;
-    const name = document.getElementById('displayName').textContent;
-    const dateTime = document.getElementById('displayDateTime').textContent;
-    
-    document.getElementById('repeatAmount').textContent = '- ' + amount;
-    document.getElementById('repeatRecipient').textContent = name;
-    document.getElementById('repeatDateTime').textContent = dateTime.replace(', ', ', ').split(' ')[0] + ' ' + dateTime.split(' ')[1];
-    document.getElementById('repeatTotal').textContent = amount;
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 
   function goToHome() {
-    const mainScreen = document.querySelector('.screen:not(.screen-repeat)');
-    const repeatScreen = document.getElementById('repeatScreen');
-    
-    repeatScreen.classList.add('hidden');
-    mainScreen.classList.remove('hidden');
+    showOriginalDesign();
   }
 
   function showReceipt() {
@@ -1306,7 +1440,7 @@
   }
 
   function repeatPaymentAgain() {
-    showRepeatToast('Повтор платежа открыт');
+    showOriginalDesign();
   }
 
   function saveTemplate() {
