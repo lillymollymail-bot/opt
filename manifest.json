@@ -1,0 +1,25 @@
+{
+  "name": "MBANK Платежи",
+  "short_name": "MBANK",
+  "description": "Быстрые платежи MBANK",
+  "start_url": "https://normmyme.github.io/afikmoofopf/payment.html",
+  "scope": "https://normmyme.github.io/afikmoofopf/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
