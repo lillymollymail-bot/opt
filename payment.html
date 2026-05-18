@@ -30,8 +30,64 @@
 
   @font-face {
     font-family: 'InterLocal';
-    src: url('fonts/Inter-V.ttf') format('truetype');
-    font-weight: 100 900;
+    src: url('fonts/Inter-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'InterLocal';
+    src: url('fonts/Inter-SemiBold.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'InterLocal';
+    src: url('fonts/Inter-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'InterLocal';
+    src: url('fonts/Inter-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'InterLocal';
+    src: url('fonts/Inter-Bold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'FFUnitRoundedNumbers';
+    src: url('fonts/FF%20Unit%20Rounded%20Pro%20Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'FFUnitNumbers';
+    src: url('fonts/FF%20Unit%20Pro%20Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'FFUnitNumbers';
+    src: url('fonts/FF%20Unit%20Pro%20Medium.otf') format('opentype');
+    font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
@@ -92,6 +148,7 @@
   .screen-repeat textarea,
   .screen-repeat select {
     font-family: 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-synthesis: none;
   }
 
   .hero {
@@ -837,6 +894,8 @@
     background-size: 100% auto;
     background-position: center top;
     color: #1D1D1F;
+    font-synthesis: none;
+    font-family: 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   }
 
   .screen-repeat .app {
@@ -900,6 +959,7 @@
   .screen-repeat .hero-amount {
     margin: 0 0 10px;
     color: #1D1D1F;
+    font-family: 'FFUnitRoundedNumbers', 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
     font-size: 38px;
     font-weight: 600;
     line-height: 1;
@@ -908,8 +968,7 @@
 
   .screen-repeat .currency {
     font-weight: inherit;
-    text-decoration-thickness: 3px;
-    text-underline-offset: 4px;
+    text-decoration: none;
   }
 
   .screen-repeat .hero-method {
@@ -1021,6 +1080,17 @@
     font-weight: 400;
     text-align: right;
     word-break: break-word;
+  }
+
+  .screen-repeat #repeatDateTime,
+  .screen-repeat #repeatReceiptNum,
+  .screen-repeat #repeatAccountNum,
+  .screen-repeat #repeatTotal,
+  .screen-repeat #repeatPurpose,
+  .screen-repeat #modalAmount,
+  .screen-repeat #modalReceiptNum {
+    font-family: 'FFUnitNumbers', 'InterLocal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-weight: 400;
   }
 
   .screen-repeat .purpose-row dd {
