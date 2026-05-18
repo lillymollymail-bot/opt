@@ -519,6 +519,10 @@
         <input type="text" id="inputName" placeholder="Имя Фамилия">
       </div>
       <div class="field">
+        <label>Date</label>
+        <input type="date" id="inputDate">
+      </div>
+      <div class="field">
         <label>Time (HH:MM)</label>
         <input type="time" id="inputTime" placeholder="17:43">
       </div>
@@ -537,16 +541,31 @@
   }
 
   function openModal() {
-    
-    // Extract time from date-time string
-    const dateTimeText = document.getElementById('displayDateTime').textContent;
-    const timePart = dateTimeText.split(', ')[1];
-    document.getElementById('inputTime').value = timePart;
-    
-    // Pre-fill inputs with current values
     document.getElementById('inputPhone').value = document.getElementById('displayPhone').textContent;
     document.getElementById('inputAmount').value = document.getElementById('displayAmount').textContent.replace(',', '.').replace(' KGS', '');
     document.getElementById('inputName').value = document.getElementById('displayName').textContent;
+    
+    // Extract date and time from date-time string
+    const dateTimeText = document.getElementById('displayDateTime').textContent;
+    const parts = dateTimeText.split(', ');
+    const dateStr = parts[0];
+    const timeStr = parts[1];
+    
+    // Parse date (format: "18 May 2026") to ISO format (2026-05-18)
+    const months = {
+      'January': '01', 'February': '02', 'March': '03', 'April': '04',
+      'May': '05', 'June': '06', 'July': '07', 'August': '08',
+      'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    };
+    const dateParts = dateStr.split(' ');
+    const day = dateParts[0].padStart(2, '0');
+    const month = months[dateParts[1]];
+    const year = dateParts[2];
+    const isoDate = `${year}-${month}-${day}`;
+    
+    document.getElementById('inputDate').value = isoDate;
+    document.getElementById('inputTime').value = timeStr;
+    
     document.getElementById('modalOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -558,6 +577,13 @@
 
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function applyChanges() {
+    const phone = document.getElementById('inputPhone').value.trim();
+    const amount = document.getElementById('inputAmount').value.trim();
+    const name = document.getElementById('inputName').value.trim();
+    const date = document.getElementById('inputDate').value.trim();
     const time = document.getElementById('inputTime').value.trim();
 
     if (phone) {
@@ -572,16 +598,14 @@
     if (name) {
       document.getElementById('displayName').textContent = name;
     }
-    if (time) {
-      const dateTimeText = document.getElementById('displayDateTime').textContent;
-      const datePart = dateTimeText.split(', ')[0];
-      document.getElementById('displayDateTime').textContent = datePart + ', ' + ti
-      const formatted = parseFloat(amount).toFixed(2).replace('.', ',');
-      document.getElementById('displayAmount').textContent = formatted + ' KGS';
-      document.getElementById('detailAmount').textContent = formatted + ' KGS';
-    }
-    if (name) {
-      document.getElementById('displayName').textContent = name;
+    if (date && time) {
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const dateObj = new Date(date);
+      const day = dateObj.getDate();
+      const month = months[dateObj.getMonth()];
+      const year = dateObj.getFullYear();
+      const newDateTime = `${day} ${month} ${year}, ${time}`;
+      document.getElementById('displayDateTime').textContent = newDateTime;
     }
 
     closeModal();
