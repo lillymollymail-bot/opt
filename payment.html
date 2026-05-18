@@ -45,200 +45,491 @@
     display: none;
   }
 
-  /* Repeat Payment Screen Styles */
+  /* Repeat Payment Screen Styles - Professional Design */
   .screen-repeat {
-    background: #fefefe;
     position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #EFF0F3;
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="grad1" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23e8d9c8;stop-opacity:1" /><stop offset="50%25" style="stop-color:%23f5e6d3;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23e8d9c8;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad1)"/></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
     overflow: hidden;
   }
 
-  .screen-repeat::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg viewBox="0 0 390 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><text font-family="Georgia, serif" font-size="90" fill="%23009C4D" opacity="0.15"><tspan x="-10" y="90">1</tspan><tspan x="50" y="100">1</tspan><tspan x="110" y="85">1</tspan><tspan x="175" y="95">1</tspan><tspan x="240" y="88">1</tspan><tspan x="305" y="100">1</tspan><tspan x="360" y="90">1</tspan></text><text font-family="Georgia, serif" font-size="90" fill="%23FABF00" opacity="0.08"><tspan x="20" y="180">1</tspan><tspan x="85" y="190">1</tspan><tspan x="150" y="175">1</tspan><tspan x="215" y="185">1</tspan><tspan x="275" y="178">1</tspan><tspan x="335" y="188">1</tspan></text></svg>');
-    pointer-events: none;
-    z-index: 0;
+  .hero {
+    position: relative;
+    height: 450px;
+    padding-top: 1px;
+    text-align: center;
   }
 
-  .repeat-header {
-    text-align: center;
-    padding: 40px 20px 20px;
+  .status-bar-repeat {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 42px;
+    padding: 0 39px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .success-mark {
+    width: 100px;
+    height: 100px;
+    margin: 126px auto 0;
     position: relative;
     z-index: 1;
   }
 
-  .check-circle-large {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: #009C4D;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    box-shadow: 0 4px 20px rgba(0, 156, 77, 0.35);
+  .success-mark svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.02));
   }
 
-  .check-circle-large svg {
-    width: 30px;
-    height: 30px;
+  .success-mark circle {
+    fill: #20AF61;
+  }
+
+  .success-mark path {
     stroke: white;
-    stroke-width: 2.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
+    stroke-width: 7.6;
   }
 
-  .repeat-title {
-    font-size: 17px;
-    font-weight: 700;
+  .hero-title {
+    margin: 28px auto 0;
     color: #009C4D;
-    margin-bottom: 10px;
-    letter-spacing: 0;
+    font-size: clamp(24px, 4.6vw, 28px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
   }
 
-  .repeat-amount {
-    font-size: 36px;
+  .hero-amount {
+    margin-top: 18px;
+    color: #111322;
+    font-size: clamp(54px, 9.7vw, 62px);
     font-weight: 700;
-    color: #000000;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
+    line-height: 1;
+    letter-spacing: 0.01em;
   }
 
-  .repeat-description {
-    font-size: 14px;
-    color: #8C8C8C;
-    margin-bottom: 20px;
+  .currency {
+    display: inline-block;
+    font-weight: 700;
+    line-height: 0.92;
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.08em;
   }
 
-  /* Details Modal in Repeat Screen */
-  .repeat-details-overlay {
-    background: #ffffff;
-    border-radius: 24px 24px 0 0;
-    padding: 0 0 20px;
-    margin-top: auto;
+  .currency.small {
+    font-size: 0.92em;
+  }
+
+  .hero-method {
+    margin: 26px 24px 0;
+    color: #20212A;
+    font-size: clamp(21px, 4vw, 25px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .details-card {
     position: relative;
-    z-index: 2;
-    flex: 1;
+    z-index: 1;
+    min-height: calc(100svh - 450px);
+    padding: 77px 25px 180px;
+    border-radius: 29px 29px 0 0;
+    background: rgba(254, 254, 254, 0.98);
+    box-shadow: 0 -8px 24px rgba(39, 44, 62, 0.02);
   }
 
-  .repeat-details-handle {
-    width: 40px;
-    height: 4px;
-    border-radius: 2px;
-    background: #D0D4D0;
-    margin: 12px auto 0;
+  .drag-handle {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    width: 63px;
+    height: 6px;
+    border-radius: 999px;
+    background: #9CA1B0;
+    transform: translateX(-50%);
   }
 
-  .repeat-details-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: #000000;
-    margin-bottom: 6px;
+  .details-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 20px 0;
+    gap: 16px;
+    margin-bottom: 42px;
   }
 
-  .share-icon {
-    width: 22px;
-    height: 22px;
-    stroke: #009C4D;
+  .details-header h2 {
+    margin: 0;
+    color: #151522;
+    font-size: clamp(25px, 4.7vw, 30px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+  .icon-button {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    color: #009C4D;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 160ms ease, background-color 160ms ease;
+  }
+
+  .icon-button:active {
+    transform: scale(0.97);
+  }
+
+  .icon-button:hover {
+    outline: none;
+    background: rgba(0, 156, 77, 0.08);
+  }
+
+  .icon-button svg {
+    width: 35px;
+    height: 35px;
     fill: none;
-    stroke-width: 1.8;
+    stroke: currentColor;
+    stroke-width: 2.15;
     stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .transaction-list {
+    display: grid;
+    gap: 29px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(175px, 1fr) minmax(250px, 1.22fr);
+    align-items: start;
+    column-gap: 14px;
+  }
+
+  .row dt,
+  .row dd {
+    margin: 0;
+    font-size: clamp(21px, 4.1vw, 25px);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+  }
+
+  .row dt {
+    color: #777681;
+    font-weight: 400;
+  }
+
+  .row dd {
+    color: #1C1C27;
+    font-weight: 400;
+    text-align: right;
+  }
+
+  .purpose-row dd {
+    max-width: 300px;
+    justify-self: end;
+    line-height: 1.25;
+  }
+
+  .action-list {
+    display: grid;
+    gap: 33px;
+    margin-top: 41px;
+  }
+
+  .text-action {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: 16px;
+    min-height: 42px;
+    color: #009C4D;
+    font-size: clamp(23px, 4.5vw, 28px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    transition: opacity 160ms ease, transform 160ms ease;
+    border: none;
+    background: none;
     cursor: pointer;
   }
 
-  .repeat-detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 13px 20px;
-    border-bottom: 1px solid #E8EAE8;
-    color: #333333;
+  .text-action svg {
+    flex: 0 0 auto;
+    width: 27px;
+    height: 27px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  .repeat-detail-row:last-of-type {
-    border-bottom: none;
+  .text-action:hover {
+    outline: none;
+    opacity: 0.82;
   }
 
-  .repeat-detail-label {
-    font-size: 14px;
-    color: #8C8C8C;
-    font-weight: 400;
-    min-width: 120px;
-    flex-shrink: 0;
+  .text-action:active {
+    transform: scale(0.97);
   }
 
-  .repeat-detail-value {
-    font-size: 14px;
-    color: #000000;
-    font-weight: 600;
-    text-align: right;
-    max-width: 200px;
-    line-height: 1.45;
+  .text-action.repeat {
+    color: rgba(0, 156, 77, 0.24);
   }
 
-  .repeat-detail-value.mono {
-    font-family: 'SF Mono', 'Menlo', monospace;
-    font-size: 13px;
-    letter-spacing: -0.2px;
+  .home-button-repeat {
+    position: absolute;
+    z-index: 5;
+    left: 25px;
+    right: 25px;
+    bottom: 53px;
+    height: 89px;
+    border-radius: 30px;
+    background: #FFDB23;
+    color: #080810;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+    font-size: clamp(25px, 4.7vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    transition: transform 160ms ease, filter 160ms ease;
+    border: none;
+    cursor: pointer;
   }
 
-  .repeat-detail-value.bold {
-    font-weight: 700;
+  .home-button-repeat:hover {
+    outline: none;
+    filter: brightness(0.98);
   }
 
-  .repeat-actions {
-    padding: 14px 20px 0;
+  .home-button-repeat:active {
+    transform: scale(0.97);
   }
 
-  .repeat-action-item {
+  .status-icons {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 0;
-    cursor: pointer;
-    color: #009C4D;
+    transform: translateY(1px);
+  }
+
+  .signal {
+    width: 22px;
+    height: 16px;
+    background:
+      linear-gradient(to top, currentColor 45%, transparent 45%) 0 100% / 4px 100% no-repeat,
+      linear-gradient(to top, currentColor 60%, transparent 60%) 6px 100% / 4px 100% no-repeat,
+      linear-gradient(to top, currentColor 76%, transparent 76%) 12px 100% / 4px 100% no-repeat,
+      linear-gradient(to top, currentColor 100%, transparent 100%) 18px 100% / 4px 100% no-repeat;
+    opacity: 0.85;
+  }
+
+  .wifi {
+    position: relative;
+    width: 21px;
+    height: 15px;
+    opacity: 0.85;
+  }
+
+  .wifi::before,
+  .wifi::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 24px 24px 0 0;
+    transform: translateX(-50%);
+  }
+
+  .wifi::before {
+    top: 1px;
+    width: 20px;
+    height: 10px;
+  }
+
+  .wifi::after {
+    top: 7px;
+    width: 9px;
+    height: 5px;
+  }
+
+  .battery {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 17px;
+    border: 2px solid currentColor;
+    border-radius: 5px;
+    opacity: 0.85;
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .battery::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    width: 3px;
+    height: 8px;
+    border-radius: 0 2px 2px 0;
+    background: currentColor;
+  }
+
+  .toast {
+    position: fixed;
+    z-index: 20;
+    left: 50%;
+    bottom: 22px;
+    width: min(430px, calc(100vw - 40px));
+    padding: 14px 18px;
+    border-radius: 18px;
+    background: rgba(17, 19, 34, 0.92);
+    color: white;
+    text-align: center;
     font-size: 15px;
     font-weight: 600;
-    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 22px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 19, 34, 0.45);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(420px, 100%);
+    padding: 28px 24px 24px;
+    border-radius: 28px;
+    background: #FEFEFE;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.24);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #868792;
+    font-size: 34px;
+    line-height: 1;
     border: none;
     background: none;
+    cursor: pointer;
   }
 
-  .repeat-action-icon {
-    width: 22px;
-    height: 22px;
-    stroke: #009C4D;
-    fill: none;
-    stroke-width: 1.8;
-    flex-shrink: 0;
+  .modal-card h3 {
+    margin: 0 42px 8px 0;
+    font-size: 26px;
+    letter-spacing: -0.04em;
   }
 
-  .repeat-home-btn {
-    width: calc(100% - 40px);
-    padding: 18px;
-    border-radius: 16px;
-    background: #FABF00;
-    color: #000000;
+  .modal-card p {
+    margin: 0;
+    color: #009C4D;
     font-size: 16px;
     font-weight: 700;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 0.1px;
-    margin: 16px 20px 0;
-    transition: opacity 0.15s;
   }
 
-  .repeat-home-btn:active {
-    opacity: 0.85;
+  .modal-amount {
+    margin: 20px 0 22px;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .modal-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid #DFE3ED;
+    color: #777681;
+    font-size: 15px;
+  }
+
+  .modal-line b {
+    color: #111322;
+    text-align: right;
+  }
+
+  .modal-button {
+    width: 100%;
+    height: 54px;
+    margin-top: 18px;
+    border-radius: 18px;
+    background: #FFDB23;
+    color: #080810;
+    font-size: 18px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: filter 160ms ease, transform 160ms ease;
+  }
+
+  .modal-button:active {
+    transform: scale(0.97);
+  }
+
+  .modal-button:hover {
+    filter: brightness(0.98);
   }
 
   /* Header */
@@ -715,66 +1006,109 @@
 
 <!-- Repeat Payment Screen -->
 <div class="screen screen-repeat hidden" id="repeatScreen">
-  <div class="repeat-header">
-    <div class="check-circle-large">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5L10 17.5L19 7" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="repeat-title">Транзакция успешно проведена</div>
-    <div class="repeat-amount" id="repeatAmount">- 10,00 <span style="font-size: 28px;">₽</span></div>
-    <div class="repeat-description" id="repeatDescription">Перевод по номеру телефона QR</div>
-  </div>
+  <main class="app" aria-label="Экран успешной транзакции">
+    <section class="hero" aria-label="Статус транзакции">
+      <div class="status-bar-repeat" aria-hidden="true">
+        <span>19:01</span>
+        <div class="status-icons">
+          <span class="signal"></span>
+          <span class="wifi"></span>
+          <span class="battery"><span>68</span></span>
+        </div>
+      </div>
 
-  <div class="repeat-details-overlay">
-    <div class="repeat-details-handle"></div>
-    <div class="repeat-details-title">
-      Детали транзакции
-      <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-    </div>
+      <div class="success-mark" aria-hidden="true">
+        <svg viewBox="0 0 80 80" role="img" aria-label="Успешно">
+          <circle cx="40" cy="40" r="40"></circle>
+          <path d="M24.5 40.8 35.5 51.2 56 29.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
 
-    <div style="padding-top: 10px;">
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Дата и время</span>
-        <span class="repeat-detail-value" id="repeatDateTime">18.05.2026, 19:00</span>
-      </div>
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Номер квитанции</span>
-        <span class="repeat-detail-value mono">P0518130054523</span>
-      </div>
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Оплачено со счета</span>
-        <span class="repeat-detail-value mono">1030120687205222</span>
-      </div>
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Получатель</span>
-        <span class="repeat-detail-value" id="repeatRecipient">Бекжан А.</span>
-      </div>
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Итого</span>
-        <span class="repeat-detail-value bold" id="repeatTotal">10,00 ₽</span>
-      </div>
-      <div class="repeat-detail-row">
-        <span class="repeat-detail-label">Назначение платежа</span>
-        <span class="repeat-detail-value">Перевод по номеру телефона qr. 996703738479/ Бекжан А.// Сумма 10.00 KGS</span>
-      </div>
-    </div>
+      <h1 class="hero-title" id="repeatTitle">Транзакция успешно проведена</h1>
+      <div class="hero-amount" id="repeatAmount">- 10,00 <span class="currency">с</span></div>
+      <p class="hero-method" id="repeatDescription">Перевод по номеру телефона QR</p>
+    </section>
 
-    <div class="repeat-actions">
-      <button class="repeat-action-item" onclick="showReceipt()">
-        <svg class="repeat-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v14a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/><polyline points="4 4 4 2 20 2 20 4"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="14" y2="14"/></svg>
-        <span>Посмотреть квитанцию</span>
-      </button>
-      <button class="repeat-action-item" onclick="repeatPaymentAgain()">
-        <svg class="repeat-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-        <span>Повторить платёж</span>
-      </button>
-      <button class="repeat-action-item" onclick="saveTemplate()">
-        <svg class="repeat-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-        <span>Сохранить как шаблон</span>
-      </button>
-    </div>
+    <section class="details-card" aria-label="Детали транзакции">
+      <div class="drag-handle" aria-hidden="true"></div>
 
-    <button class="repeat-home-btn" onclick="goToHome()">На главную</button>
-  </div>
+      <header class="details-header">
+        <h2>Детали транзакции</h2>
+        <button class="icon-button" type="button" onclick="shareTransaction()" aria-label="Поделиться">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12"></path>
+            <path d="M7.5 7.5 12 3l4.5 4.5"></path>
+            <path d="M5 11v7.2A2.8 2.8 0 0 0 7.8 21h8.4A2.8 2.8 0 0 0 19 18.2V11"></path>
+          </svg>
+        </button>
+      </header>
+
+      <dl class="transaction-list">
+        <div class="row">
+          <dt>Дата и время</dt>
+          <dd id="repeatDateTime">18.05.2026, 19:00</dd>
+        </div>
+        <div class="row">
+          <dt>Номер квитанции</dt>
+          <dd id="repeatReceiptNum">P0518130054523</dd>
+        </div>
+        <div class="row">
+          <dt>Оплачено со счета</dt>
+          <dd id="repeatAccountNum">1030120687205222</dd>
+        </div>
+        <div class="row">
+          <dt>Получатель</dt>
+          <dd id="repeatRecipient">Бекжан А.</dd>
+        </div>
+        <div class="row">
+          <dt>Итого</dt>
+          <dd id="repeatTotal">10,00 <span class="currency small">с</span></dd>
+        </div>
+        <div class="row purpose-row">
+          <dt>Назначение платежа</dt>
+          <dd id="repeatPurpose">Перевод по номеру телефона qr.<br>996703738479/ Бекжан А.// Сумма 10.00 KGS</dd>
+        </div>
+      </dl>
+
+      <div class="action-list">
+        <button class="text-action" type="button" onclick="showReceipt()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="5" y="3.8" width="14" height="16.4" rx="2"></rect>
+            <path d="M8.2 8h7.6M8.2 11h7.6M8.2 14h4.8"></path>
+            <path d="M7 20.2 9 18.6l2 1.6 2-1.6 2 1.6 2-1.6"></path>
+          </svg>
+          <span>Посмотреть квитанцию</span>
+        </button>
+
+        <button class="text-action repeat" type="button" onclick="repeatPaymentAgain()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12a8 8 0 0 1 13.7-5.7"></path>
+            <path d="M18 3v4h-4"></path>
+            <path d="M20 12A8 8 0 0 1 6.3 17.7"></path>
+            <path d="M6 21v-4h4"></path>
+          </svg>
+          <span>Повторить платеж</span>
+        </button>
+      </div>
+    </section>
+
+    <button class="home-button-repeat" type="button" onclick="goToHome()">На главную</button>
+
+    <div class="toast" role="status" aria-live="polite" id="repeatToast"></div>
+
+    <div class="modal" aria-hidden="true" id="repeatModal">
+      <div class="modal-backdrop" onclick="closeRepeatModal()"></div>
+      <article class="modal-card" role="dialog" aria-modal="true" aria-label="Квитанция">
+        <button class="modal-close" type="button" onclick="closeRepeatModal()" aria-label="Закрыть">×</button>
+        <h3>Квитанция</h3>
+        <p>Транзакция успешно проведена</p>
+        <div class="modal-amount" id="modalAmount">10,00 <span class="currency small">с</span></div>
+        <div class="modal-line"><span>Получатель</span><b id="modalRecipient">Бекжан А.</b></div>
+        <div class="modal-line"><span>Номер</span><b id="modalReceiptNum">P0518130054523</b></div>
+        <button class="modal-button" type="button" onclick="closeRepeatModal()">Готово</button>
+      </article>
+    </div>
+  </main>
 </div>
 
 <!-- Edit Modal -->
@@ -918,16 +1252,70 @@
   }
 
   function showReceipt() {
-    alert('Квитанция');
+    const modal = document.getElementById('repeatModal');
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeRepeatModal() {
+    const modal = document.getElementById('repeatModal');
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function shareTransaction() {
+    const transactionText = [
+      'Транзакция успешно проведена',
+      'Сумма: ' + document.getElementById('repeatAmount').textContent,
+      'Дата и время: ' + document.getElementById('repeatDateTime').textContent,
+      'Номер квитанции: ' + document.getElementById('repeatReceiptNum').textContent,
+      'Получатель: ' + document.getElementById('repeatRecipient').textContent
+    ].join('\n');
+
+    try {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Квитанция',
+          text: transactionText
+        });
+        return;
+      }
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(transactionText);
+        showRepeatToast('Данные транзакции скопированы');
+        return;
+      }
+
+      showRepeatToast('Поделиться можно из меню браузера');
+    } catch (error) {
+      showRepeatToast('Действие отменено');
+    }
+  }
+
+  function showRepeatToast(message) {
+    const toast = document.getElementById('repeatToast');
+    if (!toast) return;
+    
+    window.clearTimeout(window.repeatToastTimer);
+    toast.textContent = message;
+    toast.classList.add('is-visible');
+    window.repeatToastTimer = window.setTimeout(() => {
+      toast.classList.remove('is-visible');
+    }, 1800);
   }
 
   function repeatPaymentAgain() {
-    alert('Повторить платеж');
+    showRepeatToast('Повтор платежа открыт');
   }
 
   function saveTemplate() {
-    alert('Сохранено как шаблон');
+    showRepeatToast('Сохранено как шаблон');
   }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeRepeatModal();
+  });
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
